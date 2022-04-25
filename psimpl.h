@@ -98,7 +98,8 @@
 #include <numeric>
 #include <algorithm>
 #include <cmath>
-
+#include <functional>
+using namespace std::placeholders;
 
 /*!
     \brief Root namespace of the polyline simplification library.
@@ -437,7 +438,7 @@ namespace psimpl
             stats.max = static_cast <double> (*std::max_element (first, last));
             stats.sum = static_cast <double> (std::accumulate (first, last, init));
             stats.mean = stats.sum / count;
-            std::transform (first, last, first, std::bind2nd (std::minus <value_type> (), stats.mean));
+            std::transform (first, last, first, std::bind(std::minus <value_type> (), _1, stats.mean));
             stats.std = std::sqrt (static_cast <double> (std::inner_product (first, last, first, init)) / count);
             return stats;
         }
@@ -1334,7 +1335,7 @@ namespace psimpl
 
             std::transform (errors.get (), errors.get () + errorCount,
                             errors.get (),
-                            std::ptr_fun <double, double> (std::sqrt));
+                            [](double a) {return std::sqrtf(a);});
 
             return math::compute_statistics (errors.get (), errors.get () + errorCount);
         }
