@@ -67,7 +67,7 @@
     interface that operates on input and output iterators. Polylines can be of any dimension, and
     defined using floating point or signed integer data types.
 </pre><br>
-    
+
     \section sec_changelog changelog
 <pre>
     28-09-2010 - Initial version
@@ -988,7 +988,7 @@ namespace psimpl
                                    ? coordCount / DIM
                                    : 0;
             value_type tol2 = tol * tol;    // squared minimum distance tolerance
-            
+
             // validate input and check if simplification required
             if (coordCount % DIM || pointCount < 3 || look_ahead < 2 || tol2 == 0) {
                 return std::copy (first, last, result);
@@ -1326,16 +1326,16 @@ namespace psimpl
             util::scoped_array <double> errors (pointCount);
             PolylineSimplification <DIM, InputIterator, double*> ps;
 
-            diff_type errorCount = 
+            diff_type errorCount =
                 std::distance (
-                    errors.get (), 
+                    errors.get (),
                     ps.ComputePositionalErrors2 (original_first, original_last,
                                                  simplified_first, simplified_last,
                                                  errors.get (), valid));
 
             std::transform (errors.get (), errors.get () + errorCount,
                             errors.get (),
-                            [](double a) {return std::sqrtf(a);});
+                            [](double a) {return sqrtf(a);});
 
             return math::compute_statistics (errors.get (), errors.get () + errorCount);
         }
@@ -1389,7 +1389,7 @@ namespace psimpl
         {
             std::advance (it, n * static_cast <diff_type> (DIM));
         }
-        
+
         /*!
             \brief Increments a copy of the iterator by n points.
 
